@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="/javascripts/underscore.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascripts/jQuery.js"></script>
+  <script src="/javascripts/chat.js"></script>
+  <script src="/javascripts/chat_ui.js"></script>
+  <script>
+    var socket = io.connect('http://localhost');
+    socket.on('message', function (data) {
+        var socketMessage = data.message;
+        var user = data.user
+        $("div.chat").prepend("<br>");
+       $("div.chat").prepend(_.escape(user + ": " + socketMessage));
+
+      // socket.emit('my other event', { my: 'data' });
+    });
+  </script>
+</head>
+<body>
+
+  <form>
+    <input type="text" id="chat-text"></input>
+    <button class="chat-form" type="submit">Chat it up.</button>
+  <div class="chat"></div>
+</body>
+
+<script>
+$(document).ready(function (){
+
+    $("form").on("submit", function(event) {
+      event.preventDefault();
+      var chatText = $("#chat-text").val();
+      $("#chat-text").val("");
+      socket.emit("secret", chatText);
+    })
+})
+
+</script>
+</html>
