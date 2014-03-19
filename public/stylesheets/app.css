@@ -1,0 +1,22 @@
+body {
+  background: white;
+  color: green;
+  width: 100%;
+}
+
+#chatbox {
+  height: 200px;
+  width: 70%;
+  background: black;
+  overflow: scroll;
+}
+
+.chat {
+  width: 70%;
+}
+
+.users {
+  background: gray;
+  width: 30%;
+  display: inline;
+}

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="stylesheets/app.css">
   <script src="/javascripts/underscore.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/javascripts/jQuery.js"></script>
@@ -13,17 +14,34 @@
         var user = data.user
         $("div.chat").prepend("<br>");
        $("div.chat").prepend(_.escape(user + ": " + socketMessage));
+       $("div.users").html("<h3> Users in this Room: </h3> <hr>")
+       _(data.users).each(function(user){
+         $("div.users").append("<li>" + _.escape(user))
+       })
 
       // socket.emit('my other event', { my: 'data' });
     });
   </script>
 </head>
 <body>
+  <h1>Pirate Chat!</h1>
+
 
   <form>
     <input type="text" id="chat-text"></input>
     <button class="chat-form" type="submit">Chat it up.</button>
+    <button>NEW ROOM YO! </button>
+  <div id="chatbox">
   <div class="chat"></div>
+  </div>
+
+  <div class="users">
+  </div>
+
+
+
+
+
 </body>
 
 <script>
@@ -32,8 +50,10 @@ $(document).ready(function (){
     $("form").on("submit", function(event) {
       event.preventDefault();
       var chatText = $("#chat-text").val();
-      $("#chat-text").val("");
-      socket.emit("secret", chatText);
+      if (chatText) {
+        $("#chat-text").val("");
+        socket.emit("secret", chatText);
+      }
     })
 })
 
